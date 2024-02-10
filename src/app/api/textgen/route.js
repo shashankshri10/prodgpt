@@ -1,5 +1,5 @@
 const url = 'https://api.together.xyz/v1/chat/completions';
-const apiKey = '4ed53c5ad29d17d59c9dae03d954057b7a8af5d0d021fa6c312baaa0ea0522e9';
+// const api key
 const apiKey2 = process.env.TAI_KEY;
 const headers = new Headers({
     'Content-Type': 'application/json',
