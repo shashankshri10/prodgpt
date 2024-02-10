@@ -6,10 +6,10 @@ const headers = new Headers({
     'Authorization': `Bearer ${apiKey}`
 });
 
-export async function GET(req){
+export async function POST(req){
     try {
-        const { searchParams } = new URL(req.url);
-        const inputText = searchParams.get('inputText');
+        const inputText=await req.json();
+        // feed inputText to LLM
         const data = {
             model: 'openchat/openchat-3.5-1210',
             max_tokens: 512,

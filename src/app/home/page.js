@@ -8,9 +8,35 @@ export default function Page(){
     
     const handleClk = async () => {
         try {
-            const res = await fetch('')
-            // setGeneratedText(async () => await generateText(inputText))
-            setTimeout(()=>console.log("gen text:",generatedText),5000);
+            const data = {
+                model: 'openchat/openchat-3.5-1210',
+                max_tokens: 512,
+                top: ['</s>', '[/INST]'],
+                temperature: 0.7,
+                top_p: 0.7,
+                top_k: 50,
+                repetition_penalty: 1,
+                n: 1,
+                messages: [
+                    {
+                        role: 'user',
+                        content: inputText
+                    }
+                ]
+            };
+            const options = {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(data)
+            };
+            
+            const response = await fetch(url, options);
+            const result = await response.json();
+    
+            console.log(result);
+            console.log(result.choices[0].message.content);
+            setGeneratedText(result.choices[0].message.content)
+
         } catch (error) {
             console.error(error);
         }
@@ -39,9 +65,9 @@ export default function Page(){
                 >
                     Generate
                 </button>
-                {generatedText && (
-                    <TextArr inputText={inputText} />
-                )}
+                <div className='white-text'>
+                    <p>{generatedText}</p>
+                </div>
             </div>
         </>
     );
