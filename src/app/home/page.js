@@ -13,7 +13,7 @@ export default function Page(){
             const it = inputText;
             
             // Make a POST request to the API endpoint
-            const response = await fetch('http://localhost:3000/api/textgen/', {
+            const response = await fetch('/api/textgen/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
