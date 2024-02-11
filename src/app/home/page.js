@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { InfinitySpin } from "react-loader-spinner";
+import "./loading.css";
 
 export default function Page() {
   const [inputText, setInputText] = useState("");
@@ -49,7 +50,10 @@ export default function Page() {
   return (
     <>
       <div className="flex flex-col justify-top items-center h-screen">
-        <div className="h-1/4 min-h-1/4 flex flex-col justify-around" style={{margin : '5vh 0px'}}>
+        <div
+          className="h-1/4 min-h-1/4 flex flex-col justify-around"
+          style={{ margin: "5vh 0px" }}
+        >
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
             Enter Product Idea
           </h2>
@@ -70,15 +74,16 @@ export default function Page() {
           </button>
         </div>
         <div
-          className="mx-10vw white-text overflow-y-scroll"
+          className="wrapper mx-10vw white-text overflow-y-scroll"
+          //   id="wrapper"
           style={{
             maxHeight: "60vh",
             margin: "0px 10vw",
-            scrollbarWidth: "thin" /* For Firefox */,
-            scrollbarColor: "grey black" /* For Firefox */,
-            WebkitOverflowScrolling: "touch" /* For smooth scrolling on iOS */,
-            scrollbarTrackColor: "red" /* For IE and Edge */,
-            scrollbarFaceColor: "red" /* For IE and Edge */,
+            // scrollbarWidth: "thin" /* For Firefox */,
+            // scrollbarColor: "grey black" /* For Firefox */,
+            // WebkitOverflowScrolling: "touch" /* For smooth scrolling on iOS */,
+            // scrollbarTrackColor: "red" /* For IE and Edge */,
+            // scrollbarFaceColor: "red" /* For IE and Edge */,
           }}
         >
           <div>
