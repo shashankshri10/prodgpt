@@ -4,7 +4,7 @@ const apiKey = process.env.TAI_API_KEY;
 export async function POST(req2) {
   const req = await req2.json();
   const inputText = req.inputText;
-    try {
+  try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -19,7 +19,7 @@ export async function POST(req2) {
         width: 1024,
         height: 1024,
         steps: 40,
-        n: 4,
+        n: 1,
         seed: 9193,
         promptObj: {
           prompt: "",
