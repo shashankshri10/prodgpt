@@ -1,6 +1,7 @@
 'use client'    
 import { useState,useEffect } from 'react';
 
+
 export default function Page(){
     const [inputText, setInputText] = useState('');
     const [generatedText, setGeneratedText] = useState('');
@@ -8,39 +9,36 @@ export default function Page(){
     
     const handleClk = async () => {
         try {
-            const data = {
-                model: 'openchat/openchat-3.5-1210',
-                max_tokens: 512,
-                top: ['</s>', '[/INST]'],
-                temperature: 0.7,
-                top_p: 0.7,
-                top_k: 50,
-                repetition_penalty: 1,
-                n: 1,
-                messages: [
-                    {
-                        role: 'user',
-                        content: inputText
-                    }
-                ]
-            };
-            const options = {
-                method: 'POST',
-                headers,
-                body: JSON.stringify(data)
-            };
+            // Define the input text to be sent in the request
+            const it = inputText;
             
-            const response = await fetch(url, options);
-            const result = await response.json();
+            // Make a POST request to the API endpoint
+            const response = await fetch('http://localhost:3000/api/textgen/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ inputText:it })
+            });
+            
+            // Parse the JSON response
+            const data = await response.json();
     
-            console.log(result);
-            console.log(result.choices[0].message.content);
-            setGeneratedText(result.choices[0].message.content)
-
+            // Check if the request was successful (status code 200)
+            if (response.ok) {
+                // Handle successful response here
+                console.log("Response:", data.response);
+                setGeneratedText(data.response);
+            } else {
+                // Handle error response here
+                console.error("Error:", data);
+            }
         } catch (error) {
-            console.error(error);
+            // Handle network errors or other errors
+            console.error("Error:", error);
         }
     };
+    
 
     const handleInputChange = (event) => {
         setInputText(event.target.value);

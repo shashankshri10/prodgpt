@@ -1,15 +1,10 @@
 const url = 'https://api.together.xyz/v1/chat/completions';
-// const api key
-const apiKey2 = process.env.TAI_KEY;
-const headers = new Headers({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${apiKey}`
-});
+const apiKey = process.env.TAI_API_KEY;
 
-export async function POST(req){
+// feed inputText to LLM
+async function llmFetch(inputText){
+    // console.log("headers in textgen/api llmFetch:",headers);
     try {
-        const inputText=await req.json();
-        // feed inputText to LLM
         const data = {
             model: 'openchat/openchat-3.5-1210',
             max_tokens: 512,
@@ -26,6 +21,10 @@ export async function POST(req){
                 }
             ]
         };
+        const headers = new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+        }); 
         
         const options = {
             method: 'POST',
@@ -36,26 +35,60 @@ export async function POST(req){
         const response = await fetch(url, options);
         const result = await response.json();
 
-        console.log(result);
-        console.log(result.choices[0].message.content);
-        console.log("input text",inputText);
-        
+        // console.log(result);
+        // console.log(result.choices[0].message.content);
+        console.log("res code",response.status);
         const res = result.choices[0].message.content;
+        return {
+            response: res,
+            code: response.status
+        };
+    } catch(err) {
+        console.error('Error llmFetch:', err);
+        // console.log(apiKey);
+        return {
+            response:err.message,
+            code: err.code
+        };
+    }
+}
 
-        return {
-            status: response.status,
-            body: JSON.stringify({
-                content: res
-            })
+export async function POST(req2){
+    const req = await req2.json(); 
+    const inputText = req.inputText;
+
+    try {
+        const obj = await llmFetch(inputText);
+        console.log(obj);
+
+        // Construct the response
+        const responseBody = JSON.stringify(obj);
+        const responseHeaders = {
+            'Content-Type': 'application/json'
+            // Add more headers if needed
         };
-    } catch(error) {
-        console.error('Error:', error);
-        console.log(apiKey);
-        return {
+
+        // Return the response object
+        return new Response(responseBody, {
+            status: obj.code,
+            headers: responseHeaders
+        });
+    } catch (error) {
+        console.error('Error in POST:', error);
+        
+        // Construct error response
+        const errorMessage = {
+            error: error.message || 'Internal Server Error',
+            code: error.code || 500
+        };
+        const errorBody = JSON.stringify(errorMessage);
+
+        // Return the error response
+        return new Response(errorBody, {
             status: 500, // Internal Server Error
-            body: JSON.stringify({
-                error: error.message
-            })
-        };
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     }
 }

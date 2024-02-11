@@ -1,3 +1,3 @@
 export async function GET(){
-    return new Response("Hello World");
+    return new Response(`API Key here: ${process.env.TAI_API_KEY}`);
 }

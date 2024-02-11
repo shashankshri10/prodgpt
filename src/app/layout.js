@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import 'dotenv/config';
 
+// console.log("console log in layout",process.env.TAI_API_KEY);
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
