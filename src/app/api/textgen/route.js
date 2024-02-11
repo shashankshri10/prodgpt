@@ -17,7 +17,7 @@ async function llmFetch(inputText){
             messages: [
                 {
                     role: 'user',
-                    content: inputText
+                    content: `Based on the provided input text, find at least three commercially available products that share similarities. Then, provide three points for each product regarding features, functionalities, and target audience.Here is the text:${inputText}`
                 }
             ]
         };
