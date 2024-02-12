@@ -19,7 +19,7 @@ export async function POST(req2) {
         width: 1024,
         height: 1024,
         steps: 40,
-        n: 1,
+        n: 2,
         seed: 9193,
         promptObj: {
           prompt: "",
